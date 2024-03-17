@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
@@ -23,9 +24,13 @@ export class AuthService {
 
     const payload = { email: user.email, sub: user.id };
 
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    try {
+      return {
+        access_token: this.jwtService.sign(payload),
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async signUp(createUserDto: CreateUserDto): Promise<User | string> {
@@ -36,6 +41,10 @@ export class AuthService {
       throw new ConflictException('User already exist 😢');
     }
 
-    return this.userService.create(createUserDto);
+    try {
+      return this.userService.create(createUserDto);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }

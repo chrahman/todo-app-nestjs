@@ -8,6 +8,7 @@ import {
   Put,
   Query,
   Req,
+  Patch,
 } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -45,14 +46,24 @@ export class TodosController {
     return this.todosService.findOne(id, user.sub);
   }
 
-  @Put('update/:id')
-  update(
+  @Patch('update/:id')
+  updatePatch(
     @Param('id') id: string,
     @Body() updateTodoDto: UpdateTodoDto,
     @Req() req,
   ) {
     const user = req.user;
-    return this.todosService.update(id, updateTodoDto, user.sub);
+    return this.todosService.update(id, updateTodoDto, user.sub, 'patch');
+  }
+
+  @Put('update/:id')
+  updatePut(
+    @Param('id') id: string,
+    @Body() updateTodoDto: UpdateTodoDto,
+    @Req() req,
+  ) {
+    const user = req.user;
+    return this.todosService.update(id, updateTodoDto, user.sub, 'put');
   }
 
   @Delete('delete/:id')

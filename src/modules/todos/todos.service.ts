@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
   UnauthorizedException,
@@ -34,6 +35,7 @@ export class TodosService {
       return data;
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -60,6 +62,7 @@ export class TodosService {
       }
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -75,6 +78,7 @@ export class TodosService {
       });
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -97,10 +101,11 @@ export class TodosService {
       return data;
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
-  async update(id: string, updateTodoDto: UpdateTodoDto, userId) {
+  async update(id: string, updateTodoDto: UpdateTodoDto, userId, method) {
     const isTodoExist = await this.todoRepository.findOne({
       where: {
         id,
@@ -112,11 +117,18 @@ export class TodosService {
     if (!isTodoExist) {
       throw new NotFoundException('Todo not found');
     }
+    if (method === 'put') {
+      updateTodoDto.title = updateTodoDto.title || null;
+      updateTodoDto.description = updateTodoDto.description || null;
+      updateTodoDto.isCompleted = updateTodoDto.isCompleted || null;
+      updateTodoDto.dueDate = updateTodoDto.dueDate || null;
+    }
     try {
       await this.todoRepository.update(id, updateTodoDto);
-      return 'Todo updated 🎉';
+      return this.findOne(id, userId);
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -145,6 +157,7 @@ export class TodosService {
       await this.todoRepository.delete(id);
       return 'Todo deleted 🎉';
     } catch (error) {
+      throw new InternalServerErrorException(error.message);
       this.logger.error(error.message);
     }
   }

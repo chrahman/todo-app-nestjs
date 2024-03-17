@@ -4,13 +4,13 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Todo extends BaseModel {
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   isCompleted: boolean;
 
   @Column({ nullable: true })

@@ -27,6 +27,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.CREATED)
   @Post('signup')
+  @Public()
   create(@Body() createUserDto: CreateUserDto): Promise<User | string> {
     return this.authService.signUp(createUserDto);
   }

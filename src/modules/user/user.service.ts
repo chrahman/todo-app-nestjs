@@ -1,5 +1,6 @@
 import {
   Injectable,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
   UnauthorizedException,
@@ -34,6 +35,7 @@ export class UserService {
       return data;
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -45,6 +47,7 @@ export class UserService {
       return data;
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -83,6 +86,7 @@ export class UserService {
       return data;
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -101,6 +105,7 @@ export class UserService {
       return 'User updated';
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 
@@ -116,6 +121,7 @@ export class UserService {
       return 'User deleted';
     } catch (error) {
       this.logger.error(error.message);
+      throw new InternalServerErrorException(error.message);
     }
   }
 }
