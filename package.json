@@ -23,8 +23,7 @@
     "migration:revert": "npm run typeorm migration:revert",
     "migration:generate": "npm run typeorm migration:generate ./migrations/$npm_config_key",
     "migration:create": "typeorm migration:create ./migrations/$npm_config_key",
-    "migration:show": "npm run typeorm migration:show",
-    "prepare": "husky install"
+    "migration:show": "npm run typeorm migration:show"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
