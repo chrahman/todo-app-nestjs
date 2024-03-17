@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User } from '../user/entities/user.entity';
 import { AuthGuard } from './auth.guard';
+import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -19,7 +20,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() logInDto: Record<string, any>) {
+  @Public()
+  signIn(@Body() logInDto) {
     return this.authService.logIn(logInDto.email, logInDto.password);
   }
 
