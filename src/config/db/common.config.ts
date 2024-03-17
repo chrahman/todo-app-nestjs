@@ -18,7 +18,7 @@ export default function commonConfig(): DataSourceOptions {
 
   return {
     type: 'postgres',
-    synchronize: true,
+    synchronize: false,
     entities: [join(__dirname, '../../**/*.entity{.ts,.js}')],
     ...(process.env.NODE_ENV === 'production' ? prodConfig : devConfig),
   };
