@@ -13,7 +13,7 @@ export default function commonConfig(): DataSourceOptions {
 
   const prodConfig = {
     url: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: true,
   };
 
   return {
